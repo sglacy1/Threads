@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+description = "Echo Client Server Socket Example"
+
+task Server(type: JavaExec) {
+    description 'Creates Server socket waits for messages'
+
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'Server'
+    // run with arguments e.g.: gradle Server -Pport=9099
+
+    if (project.hasProperty('port')) {
+        args(project.getProperty('port'));
+    }
+}
+
+task ThreadedServer(type: JavaExec) {
+    description 'Creates Server socket waits for messages'
+
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'ThreadedServer'
+    // run with arguments e.g.: gradle Server -Pport=9099
+
+    if (project.hasProperty('port')) {
+        args(project.getProperty('port'));
+    }
+}
+
+task ThreadedPoolServer(type: JavaExec) {
+    description 'Creates Server and waits for clients to connect'
+
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'ThreadPoolServer'
+
+    // run with arguments e.g.: gradle ThreadPoolServer -Pport=8888 -Pworkers=25 -Psleep=10
+    if (project.hasProperty("port") && project.hasProperty("workers") && project.hasProperty("sleep")) {
+        args(project.getProperty('port'),project.getProperty('workers'),project.getProperty('sleep'));
+    }
+}
+
+
+
